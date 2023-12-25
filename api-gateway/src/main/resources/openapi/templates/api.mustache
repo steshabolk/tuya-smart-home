@@ -1,0 +1,95 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+import org.springframework.http.HttpMethod
+{{#imports}}import {{import}}
+{{/imports}}
+
+import {{packageName}}.infrastructure.ApiClient
+import {{packageName}}.infrastructure.MultiValueMap
+import {{packageName}}.infrastructure.Request
+import {{packageName}}.infrastructure.toMultiValue
+import org.springframework.web.client.RestTemplate
+import org.springframework.util.LinkedMultiValueMap
+
+{{#operations}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}open class {{classname}}(
+    basePath: String,
+    restTemplate: RestTemplate
+) : ApiClient(basePath, restTemplate,) {
+
+    {{#operation}}
+    /**
+    * {{summary}}
+    * {{notes}}
+    {{#allParams}}* @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}}* @return {{{returnType}}}
+    */
+    @Suppress("UNCHECKED_CAST", "USELESS_CAST")
+    {{#isDeprecated}}
+    @Deprecated(message = "This operation is deprecated.")
+    {{/isDeprecated}}
+    fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}? = null{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+        val localVariableConfig = {{operationId}}Request({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+
+        val result = request<{{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}>(localVariableConfig)
+
+        return result
+    }
+
+    /**
+    * To obtain the request config of the operation {{operationId}}
+    *
+    {{#allParams}}* @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}}* @return Request
+    */
+    {{#isDeprecated}}
+    @Deprecated(message = "This operation is deprecated.")
+    {{/isDeprecated}}
+    private fun {{operationId}}Request({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : Request {
+        val localVariableBody: kotlin.Any? = {{#hasBodyParam}}{{#bodyParams}}{{{paramName}}}{{/bodyParams}}{{/hasBodyParam}}{{^hasBodyParam}}{{^hasFormParams}}null{{/hasFormParams}}{{#hasFormParams}}mapOf({{#formParams}}"{{{baseName}}}" to {{{paramName}}}{{^-last}}, {{/-last}}{{/formParams}}){{/hasFormParams}}{{/hasBodyParam}}
+        val localVariableQuery: MultiValueMap = {{^hasQueryParams}}mutableMapOf()
+{{/hasQueryParams}}{{#hasQueryParams}}mutableMapOf<kotlin.String, List<kotlin.String>>()
+            .apply {
+                {{#queryParams}}
+                {{^required}}
+                if ({{{paramName}}} != null) {
+                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+                }
+                {{/required}}
+                {{#required}}
+                {{#isNullable}}
+                if ({{{paramName}}} != null) {
+                    put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+                }
+                {{/isNullable}}
+                {{^isNullable}}
+                put("{{baseName}}", {{#isContainer}}toMultiValue({{{paramName}}}.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString({{{paramName}}}){{/isDateTime}}{{#isDate}}parseDateToQueryString({{{paramName}}}){{/isDate}}{{^isDateTime}}{{^isDate}}{{{paramName}}}.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}})
+                {{/isNullable}}
+                {{/required}}
+                {{/queryParams}}
+            }
+            {{/hasQueryParams}}
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf({{#hasFormParams}}"Content-Type" to {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{/hasFormParams}})
+        {{#headerParams}}
+        {{{paramName}}}{{^required}}?{{/required}}.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
+        {{/headerParams}}
+
+        return Request(
+            method = HttpMethod.{{httpMethod}},
+            path = "{{path}}",
+            pathParams = mapOf(
+                {{#pathParams}}
+                "{{baseName}}" to {{#isArray}}{{paramName}}.asString(){{/isArray}}{{^isArray}}{{paramName}}{{/isArray}}{{^-last}},{{/-last}}
+                {{/pathParams}}
+            ),
+            queryParams = localVariableQuery,
+            headers = localVariableHeaders,
+            body = localVariableBody
+        )
+    }
+
+    {{/operation}}
+    private fun <T> Collection<T>.asString(): String = this.joinToString(",")
+}
+{{/operations}}

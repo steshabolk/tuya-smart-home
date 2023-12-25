@@ -1,0 +1,78 @@
+package {{packageName}}.infrastructure
+
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpMethod
+import org.springframework.util.CollectionUtils
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.web.client.RestTemplate
+import org.springframework.web.util.UriComponentsBuilder
+
+class Request(
+    val method: HttpMethod,
+    val path: String,
+    val pathParams: Map<String, Any> = emptyMap(),
+    val queryParams: Map<String, List<String>> = emptyMap(),
+    val headers: Map<String, String> = emptyMap(),
+    val body: Any? = null
+)
+
+@Suppress("UnnecessaryAbstractClass", "TooGenericExceptionCaught", "RethrowCaughtException")
+{{#nonPublicApi}}internal {{/nonPublicApi}}abstract class ApiClient(
+   val basePath: String,
+   val restTemplate: RestTemplate
+) {
+
+    val mapper = jacksonObjectMapper()
+
+    protected inline fun <reified T: Any?> request(request: Request): T {
+        val headers = LinkedMultiValueMap(request.headers.mapValues { listOf(it.value) })
+
+        val url = this.buildUrl(basePath + request.path, request.pathParams, request.queryParams)
+
+        val urlParams: MutableMap<String, String> = HashMap()
+        val builder: UriComponentsBuilder = UriComponentsBuilder.fromUriString(url)
+            .queryParams(CollectionUtils.toMultiValueMap(request.queryParams))
+
+        builder.buildAndExpand(urlParams).toUri()
+
+        val method = request.method
+
+        val requestEntity = if (request.body != null) {
+            HttpEntity(request.body, headers)
+        } else {
+            HttpEntity(headers)
+        }
+
+        val responseType = Any::class.java
+
+        val uriVariables = request.pathParams
+
+        val responseEntity = restTemplate.exchange(
+            url,
+            method,
+            requestEntity,
+            responseType,
+            uriVariables
+        )
+
+        return when (Unit) {
+            is T -> Unit
+            else -> parseResponseBody(responseEntity.body!!)
+        }
+    }
+
+    protected inline fun <reified T: Any?> parseResponseBody(body: Any): T {
+        return mapper.convertValue(body, object : TypeReference<T>() {})
+    }
+
+    protected fun buildUrl(path: String, pathParams: Map<String, Any>, queryParams: Map<String, List<String>>): String {
+        val urlParams: MutableMap<String, String> = HashMap()
+        val builder: UriComponentsBuilder = UriComponentsBuilder.fromUriString(path)
+            .queryParams(CollectionUtils.toMultiValueMap(queryParams))
+            .uriVariables(pathParams)
+
+        return builder.buildAndExpand(urlParams).toUri().toString()
+    }
+}

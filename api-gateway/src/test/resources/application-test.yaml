@@ -1,0 +1,9 @@
+rsa:
+  sign:
+    pub: signPub.pub
+    private: signPrivate.pem
+  encrypt:
+    pub: encryptPub.pub
+    private: encryptPrivate.pem
+jwt:
+  secret: GPs4nglSC5wJFlv8OuBp7HN67S9JDIbm

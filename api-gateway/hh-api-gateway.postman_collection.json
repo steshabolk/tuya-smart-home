@@ -1,0 +1,698 @@
+{
+	"info": {
+		"_postman_id": "3e5c046e-bb12-47ff-9767-f478a3a1d0e4",
+		"name": "hh-api-gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21742599"
+	},
+	"item": [
+		{
+			"name": "home-service",
+			"item": [
+				{
+					"name": "home",
+					"item": [
+						{
+							"name": "create-home",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"home-1\",\r\n    \"address\": \"Lenin st.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{home_controller}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{home_controller}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-home",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/{{home_controller}}/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{home_controller}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-homes",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/{{home_controller}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{home_controller}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit-home",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"home-1\",\r\n    \"address\": \"Lenin st. 14\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{home_controller}}/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{home_controller}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-home",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/{{home_controller}}/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{home_controller}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "room",
+					"item": [
+						{
+							"name": "create-room",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"room-1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{room_controller}}?homeId=1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{room_controller}}"
+									],
+									"query": [
+										{
+											"key": "homeId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit-room",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"room-1-changed\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{room_controller}}/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{room_controller}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-room",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/{{room_controller}}/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{room_controller}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "device-service",
+			"item": [
+				{
+					"name": "device",
+					"item": [
+						{
+							"name": "create-device",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"tuyaDeviceId\": \"vdevo169902593083504\",\r\n    \"homeId\": 1,\r\n    \"roomId\": 1,\r\n    \"name\": \"light\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{device_controller}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{device_controller}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit-device",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"homeId\": 1,\r\n    \"roomId\": 1,\r\n    \"name\": \"light-updated\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{device_controller}}/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{device_controller}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit-device-status",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"capabilities\": [\r\n        {\r\n            \"code\": \"SWITCH_LED\",\r\n            \"value\": true\r\n        },\r\n        {\r\n            \"code\": \"TEMPERATURE\",\r\n            \"value\": 500\r\n        },\r\n        {\r\n            \"code\": \"BRIGHTNESS\",\r\n            \"value\": 100\r\n        },\r\n        {\r\n            \"code\": \"COLOR\",\r\n            \"value\": {\r\n                \"h\": 255,\r\n                \"s\": 400,\r\n                \"v\": 600\r\n            }\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{device_controller}}/1/control",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{device_controller}}",
+										"1",
+										"control"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/{{device_controller}}/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{device_controller}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-devices",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/{{device_controller}}?homeId=1&roomId=1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{device_controller}}"
+									],
+									"query": [
+										{
+											"key": "homeId",
+											"value": "1"
+										},
+										{
+											"key": "roomId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-device",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/{{device_controller}}/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{device_controller}}",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "user-service",
+			"item": [
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Alex\",\r\n    \"username\": \"alex\",\r\n    \"password\": \"Password0\",\r\n    \"confirmPassword\": \"Password0\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{user_controller}}/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{user_controller}}",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "auth",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"alex\",\r\n    \"password\": \"Password0\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{user_controller}}/auth",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{user_controller}}",
+										"auth"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "refresh",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"refreshToken\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{user_controller}}/refresh",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{user_controller}}",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "signout",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/{{user_controller}}/signout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{user_controller}}",
+										"signout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-account",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"Password0\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{user_controller}}/account",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{user_controller}}",
+										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "telegram-token",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Access-Token",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/{{user_controller}}/telegram",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{user_controller}}",
+										"telegram"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "telegram-auth",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/{{user_controller}}/telegram",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{user_controller}}",
+										"telegram"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:8088",
+			"type": "string"
+		},
+		{
+			"key": "device_controller",
+			"value": "api/devices",
+			"type": "string"
+		},
+		{
+			"key": "home_controller",
+			"value": "api/homes",
+			"type": "string"
+		},
+		{
+			"key": "room_controller",
+			"value": "api/rooms",
+			"type": "string"
+		},
+		{
+			"key": "user_controller",
+			"value": "api",
+			"type": "string"
+		}
+	]
+}
