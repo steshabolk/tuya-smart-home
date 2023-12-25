@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: user-service
+  main:
+    banner-mode: off
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/hh-user-service-db
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true
+        ddl-auto: none
+    generate-ddl: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  messages:
+    basename: messages
+    encoding: UTF-8
+  kafka:
+    bootstrap-servers: localhost:29092
+
+kafka:
+  enabled: true
+  topics:
+    user-deleted:
+      name: user-deleted
+      partitions: 1
+      replicas: 1
+
+server:
+  port: 8086
+
+logging:
+  config: classpath:logback.xml
+
+jwt:
+  secret: GPs4nglSC5wJFlv8OuBp7HN67S9JDIbm
+  access:
+    ttl: 15
+  refresh:
+    ttl: 10_080
+
+rsa:
+  isEncrypted: true
+  signature: SECRET
+  dir: keys
+  sign:
+    pub: signPub.pub
+    private: signPrivate.pem
+  encrypt:
+    pub: encryptPub.pub
+    private: encryptPrivate.pem
+
+schedulers:
+  enabled: true
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    tags-sorter: alpha
+    operations-sorter: method
+  show-actuator: false

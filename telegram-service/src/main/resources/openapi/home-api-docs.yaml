@@ -1,0 +1,357 @@
+openapi: 3.0.1
+info:
+  title: home-service
+  description: API for homes and rooms management
+  version: v1
+servers:
+  - url: http://localhost:8085
+    description: Generated server url
+tags:
+  - name: Home
+  - name: Room
+paths:
+  /api/rooms/{roomId}:
+    put:
+      tags:
+        - Room
+      summary: Edit room
+      operationId: editRoom
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoomDto'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+    delete:
+      tags:
+        - Room
+      summary: Delete room
+      operationId: deleteRoom
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+  /api/homes/{homeId}:
+    get:
+      tags:
+        - Home
+      summary: Get home by id
+      operationId: getHome
+      parameters:
+        - name: homeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeDto'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+    put:
+      tags:
+        - Home
+      summary: Edit home
+      operationId: editHome
+      parameters:
+        - name: homeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HomeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeDto'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+    delete:
+      tags:
+        - Home
+      summary: Delete home
+      operationId: deleteHome
+      parameters:
+        - name: homeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+  /api/rooms:
+    post:
+      tags:
+        - Room
+      summary: Create new room
+      operationId: createRoom
+      parameters:
+        - name: homeId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoomRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoomDto'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+  /api/homes:
+    get:
+      tags:
+        - Home
+      summary: Get list of homes by owner id
+      operationId: getHomes
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SimpleHomeDto'
+    post:
+      tags:
+        - Home
+      summary: Create new home
+      operationId: createHome
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HomeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeDto'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+components:
+  schemas:
+    RoomRequest:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          minLength: 2
+          type: string
+          nullable: true
+    ExceptionResponse:
+      required:
+        - code
+        - message
+        - timestamp
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    RoomDto:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+    HomeRequest:
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          maxLength: 64
+          minLength: 2
+          type: string
+          nullable: true
+        address:
+          maxLength: 128
+          minLength: 2
+          type: string
+          nullable: true
+    HomeDto:
+      required:
+        - id
+        - name
+        - rooms
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        address:
+          type: string
+        rooms:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoomDto'
+    SimpleHomeDto:
+      required:
+        - id
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string

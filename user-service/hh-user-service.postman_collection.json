@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "a8ade97f-46eb-417c-9a78-e70a13a31a5b",
+		"name": "hh-user-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21742599"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Alex\",\r\n    \"username\": \"alex\",\r\n    \"password\": \"Password0\",\r\n    \"confirmPassword\": \"Password0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{user_controller}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_controller}}",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"alex\",\r\n    \"password\": \"Password0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{user_controller}}/auth",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_controller}}",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jwtId\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{user_controller}}/refresh?userId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_controller}}",
+								"refresh"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jwtID\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{user_controller}}/signout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_controller}}",
+								"signout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "telegram-token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{user_controller}}/telegram?userId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_controller}}",
+								"telegram"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "telegram-auth",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{user_controller}}/telegram",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_controller}}",
+								"telegram"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"Password0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{user_controller}}/account?userId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_controller}}",
+								"account"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:8086",
+			"type": "string"
+		},
+		{
+			"key": "user_controller",
+			"value": "api",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  home-service:
+    container_name: home-service
+    build: .
+    restart: always
+    ports:
+      - '8085:8085'
+    depends_on:
+      - postgres-home
+    environment:
+      TZ: Europe/Moscow
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-home:5432/hh-home-service-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_KAFKA_BOOTSTRAP-SERVERS: kafka:9092
+    networks:
+      - app-network
+
+  postgres-home:
+    container_name: postgres-home
+    image: postgres:15.4
+    restart: always
+    environment:
+      TZ: Europe/Moscow
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hh-home-service-db
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  postgres-data:
+
+networks:
+  app-network:
+    name: app-network

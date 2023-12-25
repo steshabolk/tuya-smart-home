@@ -1,0 +1,58 @@
+[
+    {
+      "code": "switch_led",
+      "value": true
+    },
+    {
+      "code": "work_mode",
+      "value": "colour"
+    },
+    {
+      "code": "bright_value_v2",
+      "value": 10
+    },
+    {
+      "code": "temp_value_v2",
+      "value": 100
+    },
+    {
+      "code": "colour_data_v2",
+      "value": "{\"h\":255,\"s\":400,\"v\":600}"
+    },
+    {
+      "code": "scene_data_v2",
+      "value": ""
+    },
+    {
+      "code": "countdown_1",
+      "value": 0
+    },
+    {
+      "code": "music_data",
+      "value": ""
+    },
+    {
+      "code": "control_data",
+      "value": ""
+    },
+    {
+      "code": "rhythm_mode",
+      "value": ""
+    },
+    {
+      "code": "sleep_mode",
+      "value": ""
+    },
+    {
+      "code": "wakeup_mode",
+      "value": ""
+    },
+    {
+      "code": "power_memory",
+      "value": ""
+    },
+    {
+      "code": "do_not_disturb",
+      "value": false
+    }
+]

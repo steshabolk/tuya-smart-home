@@ -1,0 +1,347 @@
+openapi: 3.0.1
+info:
+  title: user-service
+  description: API for users and tokens management
+  version: v1
+servers:
+  - url: http://localhost:8086
+    description: Generated server url
+tags:
+  - name: User
+paths:
+  /api/telegram:
+    get:
+      tags:
+        - User
+      summary: Generate telegram token
+      operationId: getTelegramToken
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleTelegramTokenDto'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+    post:
+      tags:
+        - User
+      summary: Authentication by telegram token
+      operationId: authByTelegramToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleTelegramTokenDto'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelegramTokenDto'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+  /api/signout:
+    post:
+      tags:
+        - User
+      summary: Sign out user
+      operationId: signOut
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignOutRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+  /api/register:
+    post:
+      tags:
+        - User
+      summary: Register new user
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenDto'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+  /api/refresh:
+    post:
+      tags:
+        - User
+      summary: Refresh access token
+      operationId: refresh
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenDto'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+  /api/auth:
+    post:
+      tags:
+        - User
+      summary: User authentication
+      operationId: auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenDto'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+  /api/account:
+    delete:
+      tags:
+        - User
+      summary: Delete user account
+      operationId: deleteAccount
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteAccountRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponse'
+components:
+  schemas:
+    SimpleTelegramTokenDto:
+      required:
+        - token
+      type: object
+      properties:
+        token:
+          maxLength: 36
+          minLength: 36
+          type: string
+    TelegramTokenDto:
+      required:
+        - token
+        - userId
+      type: object
+      properties:
+        token:
+          type: string
+        userId:
+          type: integer
+          format: int32
+    ExceptionResponse:
+      required:
+        - code
+        - message
+        - timestamp
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    SignOutRequest:
+      required:
+        - jwtId
+      type: object
+      properties:
+        jwtId:
+          maxLength: 36
+          minLength: 36
+          type: string
+          nullable: true
+    RegisterRequest:
+      required:
+        - confirmPassword
+        - name
+        - password
+        - username
+      type: object
+      properties:
+        name:
+          maxLength: 30
+          minLength: 2
+          pattern: ^[\p{L}\d\s_-]*$
+          type: string
+          nullable: true
+        username:
+          maxLength: 30
+          minLength: 2
+          pattern: ^[a-zA-Z\d_-]*$
+          type: string
+          nullable: true
+        password:
+          maxLength: 30
+          minLength: 6
+          pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$
+          type: string
+          nullable: true
+        confirmPassword:
+          maxLength: 30
+          minLength: 6
+          pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$
+          type: string
+          nullable: true
+    TokenDto:
+      required:
+        - accessToken
+        - refreshToken
+        - ttl
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        ttl:
+          type: integer
+          format: int32
+    RefreshRequest:
+      required:
+        - jwtId
+      type: object
+      properties:
+        jwtId:
+          maxLength: 36
+          minLength: 36
+          type: string
+          nullable: true
+    AuthRequest:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        username:
+          maxLength: 30
+          minLength: 2
+          pattern: ^[a-zA-Z\d_-]*$
+          type: string
+          nullable: true
+        password:
+          maxLength: 30
+          minLength: 6
+          pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$
+          type: string
+          nullable: true
+    DeleteAccountRequest:
+      required:
+        - password
+      type: object
+      properties:
+        password:
+          maxLength: 30
+          minLength: 6
+          pattern: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$
+          type: string
+          nullable: true

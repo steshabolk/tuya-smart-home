@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: telegram-service
+  config:
+    import: optional:file:.env[.properties]
+  main:
+    banner-mode: off
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/hh-telegram-service-db
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true
+        ddl-auto: none
+    generate-ddl: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  messages:
+    basename: messages
+    encoding: UTF-8
+
+logging:
+  config: classpath:logback.xml
+
+server:
+  port: 8089
+
+telegram-bot:
+  listener:
+    enabled: true
+  config:
+    name: ${TELEGRAM_BOT_NAME}
+    token: ${TELEGRAM_BOT_TOKEN}
+
+api:
+  home:
+    url: http://localhost:8085
+  user:
+    url: http://localhost:8086
+  device:
+    url: http://localhost:8087

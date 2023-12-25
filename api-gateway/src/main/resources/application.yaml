@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: api-gateway
+  main:
+    banner-mode: off
+  messages:
+    basename: messages
+    encoding: UTF-8
+
+server:
+  port: 8088
+
+api:
+  home:
+    url: http://localhost:8085
+    path: /api/homes,/api/rooms
+  user:
+    url: http://localhost:8086
+    path: /api/register,/api/auth,/api/refresh,/api/signout,/api/account,/api/telegram
+    keyPath: /api/key
+  device:
+    url: http://localhost:8087
+    path: /api/devices
+
+logging:
+  config: classpath:logback.xml
+
+jwt:
+  header: X-Access-Token
+  secret: GPs4nglSC5wJFlv8OuBp7HN67S9JDIbm
+  access:
+    ttl: 15
+  refresh:
+    ttl: 10_080
+
+rsa:
+  isEncrypted: true
+  signature: SECRET
+  dir: keys
+  sign:
+    pub: signPub.pub
+  encrypt:
+    private: encryptPrivate.pem
+
+schedulers:
+  enabled: true
